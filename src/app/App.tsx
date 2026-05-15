@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { Header } from './components/Header';
 import { EnhancedSidebar } from './components/EnhancedSidebar';
 import { OperationalHome } from './components/OperationalHome';
+import { ProtocolsCenter } from './components/ProtocolsCenter';
 import { SearchModule } from './components/SearchModule';
 import { ProtocolListModule } from './components/ProtocolListModule';
 import { ProtocolViewer } from './components/ProtocolViewer';
@@ -24,7 +25,22 @@ export default function App() {
   const renderModule = () => {
     switch (activeModule) {
       case 'home':
-        return <OperationalHome onNavigate={setActiveModule} onProtocolSelect={handleProtocolSelect} />;
+        return (
+          <OperationalHome
+            onNavigate={setActiveModule}
+            onProtocolSelect={handleProtocolSelect}
+          />
+        );
+      case 'protocols':
+      case 'protocols-all':
+      case 'protocols-emergency':
+      case 'protocols-procedures':
+      case 'protocols-regulations':
+        return (
+          <ProtocolsCenter
+            onProtocolSelect={handleProtocolSelect}
+          />
+        );
       case 'search':
         return <SearchModule onProtocolSelect={handleProtocolSelect} />;
       case 'list':
@@ -46,19 +62,18 @@ export default function App() {
       case 'monitoring':
       case 'security':
       case 'settings':
-      case 'protocols':
         return (
           <div className="bg-zinc-800 border border-zinc-700 rounded-lg p-8 text-center">
             <p className="text-zinc-400">Módulo "{activeModule}" em desenvolvimento</p>
           </div>
         );
-      case 'protocols-all':
-      case 'protocols-emergency':
-      case 'protocols-procedures':
-      case 'protocols-regulations':
-        return <ProtocolListModule onProtocolSelect={handleProtocolSelect} />;
       default:
-        return <OperationalHome onNavigate={setActiveModule} onProtocolSelect={handleProtocolSelect} />;
+        return (
+          <OperationalHome
+            onNavigate={setActiveModule}
+            onProtocolSelect={handleProtocolSelect}
+          />
+        );
     }
   };
 
@@ -73,7 +88,7 @@ export default function App() {
           onClose={() => setSidebarOpen(false)}
         />
         <main className="flex-1 overflow-y-auto bg-zinc-950 p-6">
-          <div className="max-w-6xl mx-auto">
+          <div className="max-w-7xl mx-auto">
             {renderModule()}
           </div>
         </main>
