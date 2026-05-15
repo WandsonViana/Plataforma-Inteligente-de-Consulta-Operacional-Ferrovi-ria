@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { Header } from './components/Header';
-import { Sidebar } from './components/Sidebar';
-import { HomeModule } from './components/HomeModule';
+import { EnhancedSidebar } from './components/EnhancedSidebar';
+import { OperationalHome } from './components/OperationalHome';
 import { SearchModule } from './components/SearchModule';
 import { ProtocolListModule } from './components/ProtocolListModule';
 import { ProtocolViewer } from './components/ProtocolViewer';
@@ -24,7 +24,7 @@ export default function App() {
   const renderModule = () => {
     switch (activeModule) {
       case 'home':
-        return <HomeModule onNavigate={setActiveModule} onProtocolSelect={handleProtocolSelect} />;
+        return <OperationalHome onNavigate={setActiveModule} onProtocolSelect={handleProtocolSelect} />;
       case 'search':
         return <SearchModule onProtocolSelect={handleProtocolSelect} />;
       case 'list':
@@ -38,13 +38,27 @@ export default function App() {
           </div>
         );
       case 'favorites':
+      case 'offline':
+      case 'revisions':
+      case 'emergency':
+      case 'downloads':
+      case 'notifications':
+      case 'monitoring':
+      case 'security':
+      case 'settings':
+      case 'protocols':
         return (
           <div className="bg-zinc-800 border border-zinc-700 rounded-lg p-8 text-center">
-            <p className="text-zinc-400">Funcionalidade de favoritos em desenvolvimento</p>
+            <p className="text-zinc-400">Módulo "{activeModule}" em desenvolvimento</p>
           </div>
         );
+      case 'protocols-all':
+      case 'protocols-emergency':
+      case 'protocols-procedures':
+      case 'protocols-regulations':
+        return <ProtocolListModule onProtocolSelect={handleProtocolSelect} />;
       default:
-        return <HomeModule onNavigate={setActiveModule} onProtocolSelect={handleProtocolSelect} />;
+        return <OperationalHome onNavigate={setActiveModule} onProtocolSelect={handleProtocolSelect} />;
     }
   };
 
@@ -52,7 +66,7 @@ export default function App() {
     <div className="size-full flex flex-col bg-black text-zinc-100">
       <Header onMenuClick={() => setSidebarOpen(true)} />
       <div className="flex-1 flex overflow-hidden">
-        <Sidebar
+        <EnhancedSidebar
           activeModule={activeModule}
           onModuleChange={setActiveModule}
           isOpen={sidebarOpen}
